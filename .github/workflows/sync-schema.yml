@@ -1,0 +1,234 @@
+name: Sync Schema and Release
+
+on:
+  schedule:
+    # Run weekly on Monday at 00:00 UTC
+    - cron: "0 0 * * 1"
+  push:
+    branches: [main]
+    paths:
+      # Trigger when sync script changes (may affect schema generation)
+      - "scripts/sync.py"
+  workflow_dispatch:
+    inputs:
+      force_release:
+        description: "Force a new release even if schema unchanged"
+        required: false
+        type: boolean
+        default: false
+
+# Prevent concurrent runs to avoid race conditions
+concurrency:
+  group: sync-and-release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-schema:
+    runs-on: ubuntu-latest
+    outputs:
+      schema_changed: ${{ steps.check_changes.outputs.changed }}
+      script_changed: ${{ steps.check_script.outputs.changed }}
+      new_version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: false
+
+      - name: Sync schema from upstream
+        run: uv run scripts/sync.py
+
+      - name: Validate synced schema
+        if: success()
+        run: |
+          # Validate JSON syntax
+          python3 -c "import json; json.load(open('schemas/snapcraft.json'))"
+
+          # Check required fields
+          python3 << 'VALIDATION'
+          import json
+          import sys
+
+          with open('schemas/snapcraft.json', 'r') as f:
+              schema = json.load(f)
+
+          required_fields = ['$schema', '$id', 'title', 'description']
+          missing = [f for f in required_fields if f not in schema]
+
+          if missing:
+              print(f"❌ Missing required fields: {missing}")
+              sys.exit(1)
+
+          if not schema.get('$defs'):
+              print("⚠️  Warning: No $defs found in schema")
+
+          print("✅ Schema validation passed!")
+          print(f"  - Title: {schema.get('title', 'N/A')}")
+          print(f"  - Definitions: {len(schema.get('$defs', {}))}")
+          VALIDATION
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet schemas/snapcraft.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No schema changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Schema changes detected"
+            echo "Changes:"
+            git diff --stat schemas/snapcraft.json
+          fi
+
+      - name: Check if sync script changed
+        id: check_script
+        run: |
+          # Check if sync.py was modified in this commit
+          if git diff HEAD~1..HEAD --name-only | grep -q "scripts/sync.py"; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Sync script changed"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Sync script not changed"
+          fi
+
+      - name: Calculate new version
+        id: version
+        if: steps.check_changes.outputs.changed == 'true' || steps.check_script.outputs.changed == 'true' || github.event.inputs.force_release == 'true'
+        run: |
+          # Get current version from package.json
+          CURRENT_VERSION=$(jq -r '.version' package.json)
+          echo "Current version: $CURRENT_VERSION"
+
+          # For now, set to 1.0.0 (will amend later)
+          NEW_VERSION="1.0.0"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+          # Save to environment for subsequent steps
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Update package.json version
+        if: steps.check_changes.outputs.changed == 'true' || steps.check_script.outputs.changed == 'true' || github.event.inputs.force_release == 'true'
+        run: |
+          jq '.version = "${{ steps.version.outputs.version }}"' package.json > package.json.tmp
+          mv package.json.tmp package.json
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changed == 'true' || steps.check_script.outputs.changed == 'true' || github.event.inputs.force_release == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Commit changes
+          git add schemas/snapcraft.json package.json
+          git commit -m "chore: sync schema from upstream snapcraft (v${{ steps.version.outputs.version }})"
+
+          # Create annotated tag BEFORE pushing
+          git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+
+          # Push commit and tags together atomically
+          git push origin main --follow-tags
+
+          echo "✅ Pushed commit and tag v${{ steps.version.outputs.version }}"
+
+  create-release:
+    needs: sync-schema
+    if: needs.sync-schema.outputs.schema_changed == 'true' || needs.sync-schema.outputs.script_changed == 'true' || github.event.inputs.force_release == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository at tag
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.sync-schema.outputs.new_version }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build extension
+        run: npm run compile
+
+      - name: Package extension
+        run: npx @vscode/vsce package
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.sync-schema.outputs.new_version }}
+          name: v${{ needs.sync-schema.outputs.new_version }}
+          body: |
+            ## Schema Update
+
+            This release includes the latest snapcraft.yaml schema from the [canonical/snapcraft](https://github.com/canonical/snapcraft) repository.
+
+            ### Changes
+            - Synced JSON schema with upstream snapcraft repository
+            - Updated IntelliSense and validation rules
+
+            ### Installation
+            Install from the VS Code Marketplace or download the `.vsix` file below and install manually.
+
+            ### Documentation
+            - [Snapcraft YAML Reference](https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/)
+          files: |
+            *.vsix
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Publish to VS Code Marketplace
+  publish-marketplace:
+    needs: [sync-schema, create-release]
+    if: needs.sync-schema.outputs.schema_changed == 'true' || needs.sync-schema.outputs.script_changed == 'true' || github.event.inputs.force_release == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository at tag
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.sync-schema.outputs.new_version }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build extension
+        run: npm run compile
+
+      - name: Publish to VS Code Marketplace
+        run: npx @vscode/vsce publish -p ${{ secrets.VSCE_PAT }}
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Verify publication
+        if: success()
+        run: |
+          echo "✅ Successfully published v${{ needs.sync-schema.outputs.new_version }} to VS Code Marketplace!"
+          echo "View at: https://marketplace.visualstudio.com/items?itemName=nooreldeensalah.snapcraft-intellisense"

@@ -1,0 +1,1843 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/nooreldeensalah/snapcraft-intellisense/main/schemas/snapcraft.json",
+  "title": "Snapcraft YAML Schema",
+  "description": "Schema for snapcraft.yaml. Auto-generated from: https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The identifying name of the snap."
+    },
+    "title": {
+      "type": "string",
+      "description": "A human-readable title."
+    },
+    "summary": {
+      "type": "string",
+      "description": "A short description of the project. Maximum length 78 characters."
+    },
+    "description": {
+      "type": "string",
+      "description": "The full description of the project."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the snap."
+    },
+    "base": {
+      "type": "string",
+      "description": "The base snap to be used as the run-time environment.",
+      "enum": [
+        "bare",
+        "core",
+        "core18",
+        "core20",
+        "core22",
+        "core24"
+      ]
+    },
+    "build-base": {
+      "type": "string",
+      "description": "The baseline system that the snap is built in.",
+      "enum": [
+        "bare",
+        "core",
+        "core18",
+        "core20",
+        "core22",
+        "core24",
+        "devel"
+      ]
+    },
+    "source-code": {
+      "type": "string",
+      "description": "The links to the source code of the snap or the original product."
+    },
+    "license": {
+      "type": "string",
+      "description": "The project’s license as an SPDX expression."
+    },
+    "contact": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "The snap author’s contact links and email addresses."
+    },
+    "issues": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "The links and email addresses for submitting issues, bugs, and feature\nrequests."
+    },
+    "donation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "The snap’s donation links."
+    },
+    "website": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "The links to the original software’s web pages."
+    },
+    "icon": {
+      "type": "string",
+      "description": "The path to the snap’s icon."
+    },
+    "adopt-info": {
+      "type": "string",
+      "description": "Selects a part to inherit metadata from and reuse for the snap’s\nmetadata."
+    },
+    "environment": {
+      "type": "string",
+      "description": "The snap’s runtime environment variables."
+    },
+    "package-repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "description": "The APT package repositories to use as sources for build and stage packages."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "app",
+        "base",
+        "gadget",
+        "kernel",
+        "snapd"
+      ],
+      "description": "The snap’s type."
+    },
+    "grade": {
+      "type": "string",
+      "enum": [
+        "devel",
+        "stable"
+      ],
+      "description": "The quality grade of the snap."
+    },
+    "confinement": {
+      "type": "string",
+      "enum": [
+        "classic",
+        "devmode",
+        "strict"
+      ],
+      "description": "The amount of isolation the snap has from the host system."
+    },
+    "compression": {
+      "type": "string",
+      "enum": [
+        "lzo",
+        "xz"
+      ],
+      "description": "Specifies the algorithm that compresses the snap."
+    },
+    "layout": {
+      "type": "string",
+      "enum": [
+        "bind-file:<source-path>",
+        "bind:<source-path>",
+        "symlink:<source-path>",
+        "tmpfs:<source-path>"
+      ],
+      "description": "The file layouts in the execution environment."
+    },
+    "passthrough": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The attributes to pass to the snap’s metadata file."
+    },
+    "assumes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The minimum version of snapd and its features that the snap requires from the\nhost."
+    },
+    "slots": {
+      "type": "object",
+      "description": "Declares the snap's slots. Property names are custom identifiers.\n\nAvailable interfaces: account-control, accounts-service, acrn, adb-support, allegro-vcu, alsa, appstream-metadata, audio-playback, audio-record, autopilot-introspection, avahi-control, avahi-observe, block-devices, bluetooth-control, bluez, bool-file, broadcom-asic-control, browser-support, calendar-services, camera, can-bus, cifs-mount, classic-support, confdb, contacts-service...",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "interface": {
+                "type": "string",
+                "enum": [
+                  "account-control",
+                  "accounts-service",
+                  "acrn",
+                  "adb-support",
+                  "allegro-vcu",
+                  "alsa",
+                  "appstream-metadata",
+                  "audio-playback",
+                  "audio-record",
+                  "autopilot-introspection",
+                  "avahi-control",
+                  "avahi-observe",
+                  "block-devices",
+                  "bluetooth-control",
+                  "bluez",
+                  "bool-file",
+                  "broadcom-asic-control",
+                  "browser-support",
+                  "calendar-services",
+                  "camera",
+                  "can-bus",
+                  "cifs-mount",
+                  "classic-support",
+                  "confdb",
+                  "contacts-service",
+                  "content",
+                  "core-support",
+                  "cpu-control",
+                  "cups",
+                  "cups-control",
+                  "custom-device",
+                  "daemon-notify",
+                  "dbus",
+                  "dcdbas-control",
+                  "desktop",
+                  "desktop-launch",
+                  "desktop-legacy",
+                  "device-buttons",
+                  "display-control",
+                  "dm-crypt",
+                  "dm-multipath",
+                  "docker",
+                  "docker-support",
+                  "dsp",
+                  "dummy",
+                  "dvb",
+                  "empty",
+                  "firewall-control",
+                  "fpga",
+                  "framebuffer",
+                  "fuse-support",
+                  "fwupd",
+                  "gconf",
+                  "gpg-keys",
+                  "gpg-public-keys",
+                  "gpio",
+                  "gpio-control",
+                  "gpio-memory-control",
+                  "greengrass-support",
+                  "gsettings",
+                  "hardware-observe",
+                  "hardware-random-control",
+                  "hardware-random-observe",
+                  "hidraw",
+                  "home",
+                  "hostname-control",
+                  "hugepages-control",
+                  "i2c",
+                  "iio",
+                  "intel-mei",
+                  "intel-qat",
+                  "io-ports-control",
+                  "ion-memory-control",
+                  "iscsi-initiator",
+                  "jack1",
+                  "joystick",
+                  "juju-client-observe",
+                  "kernel-crypto-api",
+                  "kernel-firmware-control",
+                  "kernel-module-control",
+                  "kernel-module-load",
+                  "kernel-module-observe",
+                  "kubernetes-support",
+                  "kvm",
+                  "libvirt",
+                  "locale-control",
+                  "location-control",
+                  "location-observe",
+                  "log-observe",
+                  "login-session-control",
+                  "login-session-observe",
+                  "lxd",
+                  "lxd-support",
+                  "maliit",
+                  "media-control",
+                  "media-hub",
+                  "microceph",
+                  "microceph-support",
+                  "microovn",
+                  "microstack-support",
+                  "mir",
+                  "modem-manager",
+                  "mount-control",
+                  "mount-observe",
+                  "mpris",
+                  "multipass-support",
+                  "netlink-audit",
+                  "netlink-connector",
+                  "netlink-driver",
+                  "network",
+                  "network-bind",
+                  "network-control",
+                  "network-manager",
+                  "network-manager-observe",
+                  "network-observe",
+                  "network-setup-control",
+                  "network-setup-observe",
+                  "network-status",
+                  "nfs-mount",
+                  "nomad-support",
+                  "nvidia-drivers-support",
+                  "nvme-control",
+                  "ofono",
+                  "online-accounts-service",
+                  "opengl",
+                  "openvswitch",
+                  "openvswitch-support",
+                  "optical-drive",
+                  "packagekit-control",
+                  "password-manager-service",
+                  "pcscd",
+                  "personal-files",
+                  "physical-memory-control",
+                  "physical-memory-observe",
+                  "pipewire",
+                  "pkcs11",
+                  "polkit",
+                  "polkit-agent",
+                  "posix-mq",
+                  "power-control",
+                  "ppp",
+                  "process-control",
+                  "ptp",
+                  "pulseaudio",
+                  "pwm",
+                  "qualcomm-ipc-router",
+                  "raw-input",
+                  "raw-usb",
+                  "raw-volume",
+                  "remoteproc",
+                  "removable-media",
+                  "ros-opt-data",
+                  "ros-snapd-support",
+                  "screen-inhibit-control",
+                  "screencast-legacy",
+                  "scsi-generic",
+                  "sd-control",
+                  "serial-port",
+                  "shared-memory",
+                  "shutdown",
+                  "snap-refresh-control",
+                  "snap-refresh-observe",
+                  "snap_interfaces_requests_control",
+                  "snapd-control",
+                  "spi",
+                  "ssh-keys",
+                  "ssh-public-keys",
+                  "steam-support",
+                  "storage-framework-service",
+                  "system-backup",
+                  "system-files",
+                  "system-observe",
+                  "system-packages-doc",
+                  "system-source-code",
+                  "system-trace",
+                  "tee",
+                  "thumbnailer-service",
+                  "time-control",
+                  "timeserver-control",
+                  "timezone-control",
+                  "tpm",
+                  "u2f-devices",
+                  "ubuntu-download-manager",
+                  "udisks2",
+                  "uhid",
+                  "uinput",
+                  "uio",
+                  "unity7",
+                  "unity8",
+                  "unity8-calendar",
+                  "unity8-contacts",
+                  "upower-observe",
+                  "userns",
+                  "vcio",
+                  "wayland",
+                  "x11",
+                  "xilinx_dma"
+                ],
+                "description": "The interface type for this plug/slot."
+              },
+              "bus": {
+                "type": "string",
+                "enum": [
+                  "session",
+                  "system"
+                ],
+                "description": "D-Bus bus type (for dbus interface)."
+              },
+              "name": {
+                "type": "string",
+                "description": "Well-known D-Bus name or content tag."
+              },
+              "target": {
+                "type": "string",
+                "description": "Target path (for content interface)."
+              },
+              "default-provider": {
+                "type": "string",
+                "description": "Default content provider snap."
+              },
+              "content": {
+                "type": "string",
+                "description": "Content tag identifier."
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    "lint": {
+      "type": "string",
+      "description": "The linter configuration settings."
+    },
+    "epoch": {
+      "type": "string",
+      "description": "The epoch associated with this version of the snap."
+    },
+    "system-usernames": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The system usernames the snap can use to run daemons and services."
+    },
+    "build-packages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of packages to install when building a snap."
+    },
+    "build-snaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The snaps to install when building a snap."
+    },
+    "ua-services": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      },
+      "description": "The Ubuntu Pro (formerly Ubuntu Advantage) services to enable when\nbuilding the snap."
+    },
+    "provenance": {
+      "type": "string",
+      "description": "The primary-key header for snaps signed by third parties."
+    },
+    "platforms": {
+      "type": "object",
+      "description": "Platform/architecture configurations",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Platform"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "propertyNames": {
+        "enum": [
+          "amd64",
+          "arm64",
+          "armhf",
+          "i386",
+          "ppc64el",
+          "riscv64",
+          "s390x"
+        ]
+      }
+    },
+    "architectures": {
+      "type": "array",
+      "description": "Architecture configurations (for core22 and older)",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "amd64",
+              "arm64",
+              "armhf",
+              "i386",
+              "ppc64el",
+              "riscv64",
+              "s390x"
+            ]
+          },
+          {
+            "$ref": "#/$defs/Architecture"
+          }
+        ]
+      }
+    },
+    "apps": {
+      "type": "object",
+      "description": "Application definitions",
+      "additionalProperties": {
+        "$ref": "#/$defs/App"
+      }
+    },
+    "parts": {
+      "type": "object",
+      "description": "Part definitions for building the snap",
+      "additionalProperties": {
+        "$ref": "#/$defs/Part"
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Lifecycle hooks",
+      "additionalProperties": {
+        "$ref": "#/$defs/Hook"
+      }
+    },
+    "components": {
+      "type": "object",
+      "description": "Snap components",
+      "additionalProperties": {
+        "$ref": "#/$defs/Component"
+      }
+    },
+    "plugs": {
+      "type": "object",
+      "description": "Declares the snap's plugs. Property names are custom identifiers.\n\nAvailable interfaces: account-control, accounts-service, acrn, adb-support, allegro-vcu, alsa, appstream-metadata, audio-playback, audio-record, autopilot-introspection, avahi-control, avahi-observe, block-devices, bluetooth-control, bluez, bool-file, broadcom-asic-control, browser-support, calendar-services, camera, can-bus, cifs-mount, classic-support, confdb, contacts-service...",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "interface": {
+                "type": "string",
+                "enum": [
+                  "account-control",
+                  "accounts-service",
+                  "acrn",
+                  "adb-support",
+                  "allegro-vcu",
+                  "alsa",
+                  "appstream-metadata",
+                  "audio-playback",
+                  "audio-record",
+                  "autopilot-introspection",
+                  "avahi-control",
+                  "avahi-observe",
+                  "block-devices",
+                  "bluetooth-control",
+                  "bluez",
+                  "bool-file",
+                  "broadcom-asic-control",
+                  "browser-support",
+                  "calendar-services",
+                  "camera",
+                  "can-bus",
+                  "cifs-mount",
+                  "classic-support",
+                  "confdb",
+                  "contacts-service",
+                  "content",
+                  "core-support",
+                  "cpu-control",
+                  "cups",
+                  "cups-control",
+                  "custom-device",
+                  "daemon-notify",
+                  "dbus",
+                  "dcdbas-control",
+                  "desktop",
+                  "desktop-launch",
+                  "desktop-legacy",
+                  "device-buttons",
+                  "display-control",
+                  "dm-crypt",
+                  "dm-multipath",
+                  "docker",
+                  "docker-support",
+                  "dsp",
+                  "dummy",
+                  "dvb",
+                  "empty",
+                  "firewall-control",
+                  "fpga",
+                  "framebuffer",
+                  "fuse-support",
+                  "fwupd",
+                  "gconf",
+                  "gpg-keys",
+                  "gpg-public-keys",
+                  "gpio",
+                  "gpio-control",
+                  "gpio-memory-control",
+                  "greengrass-support",
+                  "gsettings",
+                  "hardware-observe",
+                  "hardware-random-control",
+                  "hardware-random-observe",
+                  "hidraw",
+                  "home",
+                  "hostname-control",
+                  "hugepages-control",
+                  "i2c",
+                  "iio",
+                  "intel-mei",
+                  "intel-qat",
+                  "io-ports-control",
+                  "ion-memory-control",
+                  "iscsi-initiator",
+                  "jack1",
+                  "joystick",
+                  "juju-client-observe",
+                  "kernel-crypto-api",
+                  "kernel-firmware-control",
+                  "kernel-module-control",
+                  "kernel-module-load",
+                  "kernel-module-observe",
+                  "kubernetes-support",
+                  "kvm",
+                  "libvirt",
+                  "locale-control",
+                  "location-control",
+                  "location-observe",
+                  "log-observe",
+                  "login-session-control",
+                  "login-session-observe",
+                  "lxd",
+                  "lxd-support",
+                  "maliit",
+                  "media-control",
+                  "media-hub",
+                  "microceph",
+                  "microceph-support",
+                  "microovn",
+                  "microstack-support",
+                  "mir",
+                  "modem-manager",
+                  "mount-control",
+                  "mount-observe",
+                  "mpris",
+                  "multipass-support",
+                  "netlink-audit",
+                  "netlink-connector",
+                  "netlink-driver",
+                  "network",
+                  "network-bind",
+                  "network-control",
+                  "network-manager",
+                  "network-manager-observe",
+                  "network-observe",
+                  "network-setup-control",
+                  "network-setup-observe",
+                  "network-status",
+                  "nfs-mount",
+                  "nomad-support",
+                  "nvidia-drivers-support",
+                  "nvme-control",
+                  "ofono",
+                  "online-accounts-service",
+                  "opengl",
+                  "openvswitch",
+                  "openvswitch-support",
+                  "optical-drive",
+                  "packagekit-control",
+                  "password-manager-service",
+                  "pcscd",
+                  "personal-files",
+                  "physical-memory-control",
+                  "physical-memory-observe",
+                  "pipewire",
+                  "pkcs11",
+                  "polkit",
+                  "polkit-agent",
+                  "posix-mq",
+                  "power-control",
+                  "ppp",
+                  "process-control",
+                  "ptp",
+                  "pulseaudio",
+                  "pwm",
+                  "qualcomm-ipc-router",
+                  "raw-input",
+                  "raw-usb",
+                  "raw-volume",
+                  "remoteproc",
+                  "removable-media",
+                  "ros-opt-data",
+                  "ros-snapd-support",
+                  "screen-inhibit-control",
+                  "screencast-legacy",
+                  "scsi-generic",
+                  "sd-control",
+                  "serial-port",
+                  "shared-memory",
+                  "shutdown",
+                  "snap-refresh-control",
+                  "snap-refresh-observe",
+                  "snap_interfaces_requests_control",
+                  "snapd-control",
+                  "spi",
+                  "ssh-keys",
+                  "ssh-public-keys",
+                  "steam-support",
+                  "storage-framework-service",
+                  "system-backup",
+                  "system-files",
+                  "system-observe",
+                  "system-packages-doc",
+                  "system-source-code",
+                  "system-trace",
+                  "tee",
+                  "thumbnailer-service",
+                  "time-control",
+                  "timeserver-control",
+                  "timezone-control",
+                  "tpm",
+                  "u2f-devices",
+                  "ubuntu-download-manager",
+                  "udisks2",
+                  "uhid",
+                  "uinput",
+                  "uio",
+                  "unity7",
+                  "unity8",
+                  "unity8-calendar",
+                  "unity8-contacts",
+                  "upower-observe",
+                  "userns",
+                  "vcio",
+                  "wayland",
+                  "x11",
+                  "xilinx_dma"
+                ],
+                "description": "The interface type for this plug/slot."
+              },
+              "bus": {
+                "type": "string",
+                "enum": [
+                  "session",
+                  "system"
+                ],
+                "description": "D-Bus bus type (for dbus interface)."
+              },
+              "name": {
+                "type": "string",
+                "description": "Well-known D-Bus name or content tag."
+              },
+              "target": {
+                "type": "string",
+                "description": "Target path (for content interface)."
+              },
+              "default-provider": {
+                "type": "string",
+                "description": "Default content provider snap."
+              },
+              "content": {
+                "type": "string",
+                "description": "Content tag identifier."
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": true,
+  "$defs": {
+    "Socket": {
+      "type": "object",
+      "description": "Socket configuration for app activation",
+      "properties": {
+        "listen-stream": {
+          "type": "integer",
+          "description": "The socket’s abstract name or socket path."
+        },
+        "socket-mode": {
+          "type": "integer",
+          "description": "The mode or permissions of the socket in octal."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Hook": {
+      "type": "object",
+      "description": "Hook configuration",
+      "properties": {
+        "command-chain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The ordered list of commands to run before the hook runs."
+        },
+        "environment": {
+          "type": "string",
+          "description": "The environment variables for the hook."
+        },
+        "plugs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of interfaces that the hook can connect to."
+        },
+        "passthrough": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "The attributes to pass to the snap’s metadata file for the hook."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Permissions": {
+      "type": "object",
+      "description": "File permission settings",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The file path, relative to the prime directory, being assigned permissions."
+        },
+        "owner": {
+          "type": "integer",
+          "description": "The numeric user ID (UID) of the desired owner on the host system."
+        },
+        "group": {
+          "type": "integer",
+          "description": "The numeric group ID (GID) of the desired owner group on the host system."
+        },
+        "mode": {
+          "type": "string",
+          "description": "The numeric representation of the file’s read, write, and execute permissions."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Platform": {
+      "type": "object",
+      "description": "Platform/architecture configuration",
+      "properties": {
+        "build-on": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "The architectures to build the snap on."
+        },
+        "build-for": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "The target architecture for the build."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Architecture": {
+      "type": "object",
+      "description": "Architecture configuration",
+      "properties": {
+        "build-on": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "The architectures to build the snap on."
+        },
+        "build-for": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "The target architecture for the build."
+        }
+      },
+      "additionalProperties": false
+    },
+    "ContentPlug": {
+      "type": "object",
+      "description": "Content interface plug definition",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The name for the content type."
+        },
+        "interface": {
+          "type": "string",
+          "description": "The name of the interface."
+        },
+        "target": {
+          "type": "string",
+          "description": "The path to where the producer’s files will be available in the snap."
+        },
+        "default-provider": {
+          "type": "string",
+          "description": "The name of the producer snap."
+        }
+      },
+      "additionalProperties": true
+    },
+    "Component": {
+      "type": "object",
+      "description": "Snap component definition",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "The summary of the component."
+        },
+        "description": {
+          "type": "string",
+          "description": "The multi-line description of the component."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "kernel-modules",
+            "standard"
+          ],
+          "description": "The type of the component."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the component."
+        },
+        "hooks": {
+          "type": "object",
+          "description": "Component lifecycle hooks",
+          "additionalProperties": {
+            "$ref": "#/$defs/Hook"
+          }
+        },
+        "adopt-info": {
+          "type": "string",
+          "description": "Selects a part to inherit metadata from and reuse for the component’s metadata."
+        }
+      },
+      "additionalProperties": false
+    },
+    "App": {
+      "type": "object",
+      "description": "Application definition",
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "The command to run inside the snap when the app is invoked."
+        },
+        "autostart": {
+          "type": "string",
+          "description": "The desktop file used to start an app when the desktop environment starts."
+        },
+        "common-id": {
+          "type": "string",
+          "description": "The identifier to a desktop ID within an external appstream file."
+        },
+        "bus-name": {
+          "type": "string",
+          "description": "The bus name that the application or service exposes through D-Bus."
+        },
+        "desktop": {
+          "type": "string",
+          "description": "The desktop file used to start an app."
+        },
+        "completer": {
+          "type": "string",
+          "description": "The name of the bash completion script for the app."
+        },
+        "stop-command": {
+          "type": "string",
+          "description": "The command to run to stop the service."
+        },
+        "post-stop-command": {
+          "type": "string",
+          "description": "The command to run after the service is stopped."
+        },
+        "start-timeout": {
+          "type": "string",
+          "description": "The maximum amount of time to wait for the service to start."
+        },
+        "stop-timeout": {
+          "type": "string",
+          "description": "The maximum amount of time to wait for the service to stop."
+        },
+        "watchdog-timeout": {
+          "type": "string",
+          "description": "The maximum amount of time the service can run without sending a\nheartbeat to the watchdog."
+        },
+        "reload-command": {
+          "type": "string",
+          "description": "The command to run to restart the service."
+        },
+        "restart-delay": {
+          "type": "string",
+          "description": "The time to wait between service restarts."
+        },
+        "timer": {
+          "type": "string",
+          "description": "The time or schedule to run a service."
+        },
+        "daemon": {
+          "type": "string",
+          "enum": [
+            "dbus",
+            "forking",
+            "notify",
+            "oneshot",
+            "simple"
+          ],
+          "description": "Configures the app as a service, and sets its runtime and\nnotification behavior."
+        },
+        "after": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The ordered list of apps that the service runs after it launches."
+        },
+        "before": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The ordered list of apps that the service runs before it launches."
+        },
+        "refresh-mode": {
+          "type": "string",
+          "enum": [
+            "endure",
+            "ignore-running",
+            "restart"
+          ],
+          "description": "Determines how the service should restart when the snap refreshes."
+        },
+        "stop-mode": {
+          "type": "string",
+          "enum": [
+            "sigterm",
+            "sigterm-all",
+            "sighup",
+            "sighup-all",
+            "sigusr1",
+            "sigusr1-all",
+            "sigusr2",
+            "sigusr2-all",
+            "sigint",
+            "sigint-all"
+          ],
+          "description": "The signal to send when stopping the service."
+        },
+        "restart-condition": {
+          "type": "string",
+          "enum": [
+            "on-success",
+            "on-failure",
+            "on-abnormal",
+            "on-abort",
+            "on-watchdog",
+            "always",
+            "never"
+          ],
+          "description": "The conditions that cause the service to restart."
+        },
+        "success-exit-status": {
+          "type": "array",
+          "description": "The list of additional successful exit statuses that the service can return."
+        },
+        "install-mode": {
+          "type": "string",
+          "enum": [
+            "disable",
+            "enable"
+          ],
+          "description": "Whether snapd can automatically start the service when the snap is installed."
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "account-control",
+              "accounts-service",
+              "acrn",
+              "adb-support",
+              "allegro-vcu",
+              "alsa",
+              "appstream-metadata",
+              "audio-playback",
+              "audio-record",
+              "autopilot-introspection",
+              "avahi-control",
+              "avahi-observe",
+              "block-devices",
+              "bluetooth-control",
+              "bluez",
+              "bool-file",
+              "broadcom-asic-control",
+              "browser-support",
+              "calendar-services",
+              "camera",
+              "can-bus",
+              "cifs-mount",
+              "classic-support",
+              "confdb",
+              "contacts-service",
+              "content",
+              "core-support",
+              "cpu-control",
+              "cups",
+              "cups-control",
+              "custom-device",
+              "daemon-notify",
+              "dbus",
+              "dcdbas-control",
+              "desktop",
+              "desktop-launch",
+              "desktop-legacy",
+              "device-buttons",
+              "display-control",
+              "dm-crypt",
+              "dm-multipath",
+              "docker",
+              "docker-support",
+              "dsp",
+              "dummy",
+              "dvb",
+              "empty",
+              "firewall-control",
+              "fpga",
+              "framebuffer",
+              "fuse-support",
+              "fwupd",
+              "gconf",
+              "gpg-keys",
+              "gpg-public-keys",
+              "gpio",
+              "gpio-control",
+              "gpio-memory-control",
+              "greengrass-support",
+              "gsettings",
+              "hardware-observe",
+              "hardware-random-control",
+              "hardware-random-observe",
+              "hidraw",
+              "home",
+              "hostname-control",
+              "hugepages-control",
+              "i2c",
+              "iio",
+              "intel-mei",
+              "intel-qat",
+              "io-ports-control",
+              "ion-memory-control",
+              "iscsi-initiator",
+              "jack1",
+              "joystick",
+              "juju-client-observe",
+              "kernel-crypto-api",
+              "kernel-firmware-control",
+              "kernel-module-control",
+              "kernel-module-load",
+              "kernel-module-observe",
+              "kubernetes-support",
+              "kvm",
+              "libvirt",
+              "locale-control",
+              "location-control",
+              "location-observe",
+              "log-observe",
+              "login-session-control",
+              "login-session-observe",
+              "lxd",
+              "lxd-support",
+              "maliit",
+              "media-control",
+              "media-hub",
+              "microceph",
+              "microceph-support",
+              "microovn",
+              "microstack-support",
+              "mir",
+              "modem-manager",
+              "mount-control",
+              "mount-observe",
+              "mpris",
+              "multipass-support",
+              "netlink-audit",
+              "netlink-connector",
+              "netlink-driver",
+              "network",
+              "network-bind",
+              "network-control",
+              "network-manager",
+              "network-manager-observe",
+              "network-observe",
+              "network-setup-control",
+              "network-setup-observe",
+              "network-status",
+              "nfs-mount",
+              "nomad-support",
+              "nvidia-drivers-support",
+              "nvme-control",
+              "ofono",
+              "online-accounts-service",
+              "opengl",
+              "openvswitch",
+              "openvswitch-support",
+              "optical-drive",
+              "packagekit-control",
+              "password-manager-service",
+              "pcscd",
+              "personal-files",
+              "physical-memory-control",
+              "physical-memory-observe",
+              "pipewire",
+              "pkcs11",
+              "polkit",
+              "polkit-agent",
+              "posix-mq",
+              "power-control",
+              "ppp",
+              "process-control",
+              "ptp",
+              "pulseaudio",
+              "pwm",
+              "qualcomm-ipc-router",
+              "raw-input",
+              "raw-usb",
+              "raw-volume",
+              "remoteproc",
+              "removable-media",
+              "ros-opt-data",
+              "ros-snapd-support",
+              "screen-inhibit-control",
+              "screencast-legacy",
+              "scsi-generic",
+              "sd-control",
+              "serial-port",
+              "shared-memory",
+              "shutdown",
+              "snap-refresh-control",
+              "snap-refresh-observe",
+              "snap_interfaces_requests_control",
+              "snapd-control",
+              "spi",
+              "ssh-keys",
+              "ssh-public-keys",
+              "steam-support",
+              "storage-framework-service",
+              "system-backup",
+              "system-files",
+              "system-observe",
+              "system-packages-doc",
+              "system-source-code",
+              "system-trace",
+              "tee",
+              "thumbnailer-service",
+              "time-control",
+              "timeserver-control",
+              "timezone-control",
+              "tpm",
+              "u2f-devices",
+              "ubuntu-download-manager",
+              "udisks2",
+              "uhid",
+              "uinput",
+              "uio",
+              "unity7",
+              "unity8",
+              "unity8-calendar",
+              "unity8-contacts",
+              "upower-observe",
+              "userns",
+              "vcio",
+              "wayland",
+              "x11",
+              "xilinx_dma"
+            ]
+          },
+          "description": "The list of slots that the app provides."
+        },
+        "plugs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "account-control",
+              "accounts-service",
+              "acrn",
+              "adb-support",
+              "allegro-vcu",
+              "alsa",
+              "appstream-metadata",
+              "audio-playback",
+              "audio-record",
+              "autopilot-introspection",
+              "avahi-control",
+              "avahi-observe",
+              "block-devices",
+              "bluetooth-control",
+              "bluez",
+              "bool-file",
+              "broadcom-asic-control",
+              "browser-support",
+              "calendar-services",
+              "camera",
+              "can-bus",
+              "cifs-mount",
+              "classic-support",
+              "confdb",
+              "contacts-service",
+              "content",
+              "core-support",
+              "cpu-control",
+              "cups",
+              "cups-control",
+              "custom-device",
+              "daemon-notify",
+              "dbus",
+              "dcdbas-control",
+              "desktop",
+              "desktop-launch",
+              "desktop-legacy",
+              "device-buttons",
+              "display-control",
+              "dm-crypt",
+              "dm-multipath",
+              "docker",
+              "docker-support",
+              "dsp",
+              "dummy",
+              "dvb",
+              "empty",
+              "firewall-control",
+              "fpga",
+              "framebuffer",
+              "fuse-support",
+              "fwupd",
+              "gconf",
+              "gpg-keys",
+              "gpg-public-keys",
+              "gpio",
+              "gpio-control",
+              "gpio-memory-control",
+              "greengrass-support",
+              "gsettings",
+              "hardware-observe",
+              "hardware-random-control",
+              "hardware-random-observe",
+              "hidraw",
+              "home",
+              "hostname-control",
+              "hugepages-control",
+              "i2c",
+              "iio",
+              "intel-mei",
+              "intel-qat",
+              "io-ports-control",
+              "ion-memory-control",
+              "iscsi-initiator",
+              "jack1",
+              "joystick",
+              "juju-client-observe",
+              "kernel-crypto-api",
+              "kernel-firmware-control",
+              "kernel-module-control",
+              "kernel-module-load",
+              "kernel-module-observe",
+              "kubernetes-support",
+              "kvm",
+              "libvirt",
+              "locale-control",
+              "location-control",
+              "location-observe",
+              "log-observe",
+              "login-session-control",
+              "login-session-observe",
+              "lxd",
+              "lxd-support",
+              "maliit",
+              "media-control",
+              "media-hub",
+              "microceph",
+              "microceph-support",
+              "microovn",
+              "microstack-support",
+              "mir",
+              "modem-manager",
+              "mount-control",
+              "mount-observe",
+              "mpris",
+              "multipass-support",
+              "netlink-audit",
+              "netlink-connector",
+              "netlink-driver",
+              "network",
+              "network-bind",
+              "network-control",
+              "network-manager",
+              "network-manager-observe",
+              "network-observe",
+              "network-setup-control",
+              "network-setup-observe",
+              "network-status",
+              "nfs-mount",
+              "nomad-support",
+              "nvidia-drivers-support",
+              "nvme-control",
+              "ofono",
+              "online-accounts-service",
+              "opengl",
+              "openvswitch",
+              "openvswitch-support",
+              "optical-drive",
+              "packagekit-control",
+              "password-manager-service",
+              "pcscd",
+              "personal-files",
+              "physical-memory-control",
+              "physical-memory-observe",
+              "pipewire",
+              "pkcs11",
+              "polkit",
+              "polkit-agent",
+              "posix-mq",
+              "power-control",
+              "ppp",
+              "process-control",
+              "ptp",
+              "pulseaudio",
+              "pwm",
+              "qualcomm-ipc-router",
+              "raw-input",
+              "raw-usb",
+              "raw-volume",
+              "remoteproc",
+              "removable-media",
+              "ros-opt-data",
+              "ros-snapd-support",
+              "screen-inhibit-control",
+              "screencast-legacy",
+              "scsi-generic",
+              "sd-control",
+              "serial-port",
+              "shared-memory",
+              "shutdown",
+              "snap-refresh-control",
+              "snap-refresh-observe",
+              "snap_interfaces_requests_control",
+              "snapd-control",
+              "spi",
+              "ssh-keys",
+              "ssh-public-keys",
+              "steam-support",
+              "storage-framework-service",
+              "system-backup",
+              "system-files",
+              "system-observe",
+              "system-packages-doc",
+              "system-source-code",
+              "system-trace",
+              "tee",
+              "thumbnailer-service",
+              "time-control",
+              "timeserver-control",
+              "timezone-control",
+              "tpm",
+              "u2f-devices",
+              "ubuntu-download-manager",
+              "udisks2",
+              "uhid",
+              "uinput",
+              "uio",
+              "unity7",
+              "unity8",
+              "unity8-calendar",
+              "unity8-contacts",
+              "upower-observe",
+              "userns",
+              "vcio",
+              "wayland",
+              "x11",
+              "xilinx_dma"
+            ]
+          },
+          "description": "The list of interfaces that the app can connect to."
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The aliases that can be used to run the app."
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The runtime environment variables."
+        },
+        "command-chain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The ordered list of commands to run before the app’s command\nruns."
+        },
+        "sockets": {
+          "type": "object",
+          "description": "Socket activation configuration",
+          "additionalProperties": {
+            "$ref": "#/$defs/Socket"
+          }
+        },
+        "daemon-scope": {
+          "type": "string",
+          "enum": [
+            "system",
+            "user"
+          ],
+          "description": "Determines whether the service is run on a system or a user instance of\nsystemd."
+        },
+        "activates-on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The slots exposed by the snap to activate the service with D-Bus."
+        },
+        "passthrough": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "The attributes to pass to the snap’s metadata file for the app."
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "dotnet10",
+              "dotnet8",
+              "dotnet9",
+              "env-injector",
+              "flutter-beta",
+              "flutter-dev",
+              "flutter-master",
+              "flutter-stable",
+              "gnome",
+              "gnome-3-28",
+              "gnome-3-34",
+              "gnome-3-38",
+              "kde-neon",
+              "kde-neon-6",
+              "kde-neon-qt6",
+              "ros1-noetic",
+              "ros1-noetic-desktop",
+              "ros1-noetic-perception",
+              "ros1-noetic-robot",
+              "ros1-noetic-ros-base",
+              "ros1-noetic-ros-core",
+              "ros2-foxy",
+              "ros2-foxy-desktop",
+              "ros2-foxy-ros-base",
+              "ros2-foxy-ros-core",
+              "ros2-humble",
+              "ros2-humble-desktop",
+              "ros2-humble-ros-base",
+              "ros2-humble-ros-core",
+              "ros2-jazzy",
+              "ros2-jazzy-desktop",
+              "ros2-jazzy-ros-base",
+              "ros2-jazzy-ros-core"
+            ]
+          },
+          "description": "The extensions to add to the project"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Part": {
+      "type": "object",
+      "description": "Part definition for building snap components",
+      "properties": {
+        "plugin": {
+          "type": "string",
+          "description": "The plugin to build the part with.",
+          "enum": [
+            "ant",
+            "autotools",
+            "cargo-use",
+            "catkin",
+            "catkin-tools",
+            "cmake",
+            "colcon",
+            "conda",
+            "crystal",
+            "dotnet",
+            "dotnet-v2",
+            "dump",
+            "flutter",
+            "go",
+            "go-use",
+            "gradle",
+            "jlink",
+            "make",
+            "matter-sdk",
+            "maven",
+            "meson",
+            "nil",
+            "npm",
+            "poetry",
+            "python",
+            "qmake",
+            "ruby",
+            "rust",
+            "scons",
+            "uv"
+          ]
+        },
+        "after": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The parts to process before starting this part’s build."
+        },
+        "disable-parallel": {
+          "type": "boolean",
+          "description": "Whether to disable CPU multithreading during the build step."
+        },
+        "source": {
+          "type": "string",
+          "description": "The location of the source files for the part."
+        },
+        "source-type": {
+          "type": "string",
+          "enum": [
+            "deb",
+            "file",
+            "git",
+            "local",
+            "rpm",
+            "snap",
+            "tar",
+            "zip"
+          ],
+          "description": "The format of the part’s source."
+        },
+        "source-checksum": {
+          "type": "string",
+          "description": "The checksum of the downloaded source, to ensure integrity."
+        },
+        "source-branch": {
+          "type": "string",
+          "description": "If the source is a Git repository, this key specifies the target branch."
+        },
+        "source-tag": {
+          "type": "string",
+          "description": "If the source is a Git repository, this key specifies the target tag."
+        },
+        "source-commit": {
+          "type": "string",
+          "description": "If the source is a Git repository, this key specifies the target commit.\nBoth short and long SHA hashes are supported."
+        },
+        "source-depth": {
+          "type": "integer",
+          "description": "If the source is a Git repository, this key specifies how far back in the\ncommit history to fetch."
+        },
+        "source-submodules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "If the source is a Git repository, this key specifies the registered Git\nsubmodules that the project also needs."
+        },
+        "source-subdir": {
+          "type": "string",
+          "description": "The subdirectory of the unpacked source where the build will occur."
+        },
+        "override-pull": {
+          "type": "string",
+          "description": "The commands to run instead of the default behavior of the pull step."
+        },
+        "build-environment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "description": "The environment variables to define for the build step, as key-value pairs."
+        },
+        "build-attributes": {
+          "type": "string",
+          "enum": [
+            "disable-usrmerge",
+            "enable-usrmerge"
+          ],
+          "description": "Special identifiers that change certain features and behavior during the build."
+        },
+        "override-build": {
+          "type": "string",
+          "description": "The commands to run instead of the default behavior of the build step."
+        },
+        "build-packages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The packages to install during the build step, before the build starts. The part\ninstalls them into the build environment using the host’s native package manager."
+        },
+        "build-snaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The snaps to install during the build step, before the build starts. The part\nmakes them available in the build environment."
+        },
+        "organize": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of files from the build directory to their destinations in the stage\ndirectory."
+        },
+        "stage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "During the stage step, any specified files are copied from the build directory to\nthe stage directory."
+        },
+        "stage-packages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "During the stage step, these packages are included in the stage environment\nalongside the build artifacts."
+        },
+        "stage-snaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "During the stage step, these snaps are included in the stage environment."
+        },
+        "override-stage": {
+          "type": "string",
+          "description": "The commands to run instead of the default behavior of the stage step."
+        },
+        "prime": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "During the prime step, any specified files are copied from the stage directory\nto the final payload."
+        },
+        "override-prime": {
+          "type": "string",
+          "description": "The commands to run instead of the default behavior of the prime step."
+        },
+        "permissions": {
+          "type": "array",
+          "description": "File permission settings",
+          "items": {
+            "$ref": "#/$defs/Permissions"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

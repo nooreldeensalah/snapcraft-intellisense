@@ -1,0 +1,15 @@
+.vscode/**
+.vscode-test/**
+src/**
+node_modules/**
+scripts/**
+.github/**
+.venv/**
+.gitignore
+eslint.config.mjs
+tsconfig.json
+**/*.ts
+**/*.map
+*.vsix
+.git/**
+snapcraft.yaml

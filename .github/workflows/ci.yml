@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Compile
+        run: npm run compile
+
+      - name: Validate schema
+        run: |
+          # Check that the schema is valid JSON
+          python3 -c "import json; json.load(open('schemas/snapcraft.json'))"
+          echo "Schema is valid JSON"
+
+      - name: Package extension
+        run: npx @vscode/vsce package --no-dependencies
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapcraft-intellisense-extension
+          path: "*.vsix"
+          retention-days: 7
+
+  validate-schema:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate schema structure
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+
+          with open('schemas/snapcraft.json', 'r') as f:
+              schema = json.load(f)
+
+          # Check required fields
+          required_fields = ['$schema', '$id', 'title', 'description']
+          missing = [f for f in required_fields if f not in schema]
+          if missing:
+              print(f"Missing required fields: {missing}")
+              sys.exit(1)
+
+          # Check for definitions
+          if '$defs' not in schema:
+              print("Warning: No $defs found in schema")
+
+          print("Schema validation passed!")
+          print(f"  - Definitions: {len(schema.get('$defs', {}))}")
+          print(f"  - Title: {schema.get('title', 'N/A')}")
+          EOF

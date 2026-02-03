@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="snapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E95420;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#772953;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="boxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0.7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#snapGradient)"/>
+  
+  <!-- Snap box icon -->
+  <g transform="translate(64, 64)">
+    <!-- Box base -->
+    <path d="M-28 8 L0 24 L28 8 L28 -16 L0 -32 L-28 -16 Z" 
+          fill="url(#boxGradient)" 
+          stroke="#FFFFFF" 
+          stroke-width="2"/>
+    
+    <!-- Box top -->
+    <path d="M-28 -16 L0 0 L28 -16 L0 -32 Z" 
+          fill="#FFFFFF" 
+          opacity="0.95"/>
+    
+    <!-- Box right side -->
+    <path d="M0 0 L0 24 L28 8 L28 -16 Z" 
+          fill="#FFFFFF" 
+          opacity="0.75"/>
+    
+    <!-- Box left side -->
+    <path d="M-28 -16 L0 0 L0 24 L-28 8 Z" 
+          fill="#FFFFFF" 
+          opacity="0.85"/>
+    
+    <!-- Snap logo lines on top -->
+    <path d="M-14 -20 L0 -12 L14 -20" 
+          fill="none" 
+          stroke="#E95420" 
+          stroke-width="3" 
+          stroke-linecap="round"/>
+    <path d="M-10 -14 L0 -8 L10 -14" 
+          fill="none" 
+          stroke="#772953" 
+          stroke-width="2" 
+          stroke-linecap="round"/>
+  </g>
+  
+  <!-- YAML brackets decoration -->
+  <text x="20" y="105" 
+        font-family="monospace" 
+        font-size="18" 
+        font-weight="bold" 
+        fill="#FFFFFF" 
+        opacity="0.9">{</text>
+  <text x="100" y="105" 
+        font-family="monospace" 
+        font-size="18" 
+        font-weight="bold" 
+        fill="#FFFFFF" 
+        opacity="0.9">}</text>
+</svg>

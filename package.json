@@ -1,0 +1,89 @@
+{
+  "name": "snapcraft-intellisense",
+  "displayName": "Snapcraft Intellisense",
+  "description": "Schema validation and IntelliSense for snapcraft.yaml project files. Provides autocompletion, validation, and hover documentation based on the official Snapcraft documentation.",
+  "version": "1.0.0",
+  "publisher": "nooreldeensalah",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nooreldeensalah/snapcraft-intellisense"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "keywords": [
+    "snapcraft",
+    "snap",
+    "ubuntu",
+    "linux",
+    "yaml",
+    "packaging"
+  ],
+  "icon": "images/icon.png",
+  "activationEvents": [
+    "onLanguage:yaml",
+    "workspaceContains:**/snapcraft.yaml",
+    "workspaceContains:**/snapcraft.yml",
+    "workspaceContains:**/snap/snapcraft.yaml",
+    "workspaceContains:**/snap/snapcraft.yml"
+  ],
+  "main": "./out/extension.js",
+  "extensionDependencies": [
+    "redhat.vscode-yaml"
+  ],
+  "contributes": {
+    "yamlValidation": [
+      {
+        "fileMatch": [
+          "snapcraft.yaml",
+          "snapcraft.yml",
+          "**/snapcraft.yaml",
+          "**/snapcraft.yml",
+          "**/snap/snapcraft.yaml",
+          "**/snap/snapcraft.yml"
+        ],
+        "url": "./schemas/snapcraft.json"
+      }
+    ],
+    "configuration": {
+      "title": "Snapcraft YAML",
+      "properties": {
+        "snapcraft.hover.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable hover documentation"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "snapcraft.showDocumentation",
+        "title": "Open Snapcraft Documentation",
+        "category": "Snapcraft"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "echo \"No tests configured\"",
+    "lint": "eslint .",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@vscode/vsce": "^3.7.0",
+    "eslint": "^9.39.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.54.0"
+  }
+}
